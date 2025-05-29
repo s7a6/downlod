@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_file, jsonify, flash, redirect, url_for
+from flask import Flask, render_template, request, send_file, flash, redirect, url_for
 import os
 import yt_dlp
 import tempfile
@@ -14,7 +14,6 @@ def index():
 def download():
     url = request.form.get('url')
     format_type = request.form.get('format', 'video')  # 'video' or 'audio'
-    
     try:
         ydl_opts = {
             'format': 'bestaudio/best' if format_type == 'audio' else 'best',
@@ -34,4 +33,5 @@ def download():
         return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run(debug=True) 
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
